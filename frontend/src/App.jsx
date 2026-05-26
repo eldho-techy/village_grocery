@@ -1,13 +1,19 @@
-import { useState } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import './assets/css/style.css'
 import Home from './pages/Home'
+import Login from './pages/admin/Login'
+import Dashboard from './pages/admin/Dashboard'
+
 
 function App() {
-  
-
-  return (
-    <Home/>
+return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/admin" element={<Login />} />
+         <Route path="/admin-dashboard" element={<Dashboard />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

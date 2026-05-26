@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NORDICS — Sign In</title>
+
+  <!-- Bootstrap 5 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
+  <!-- Work Sans Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@200;300;400;500;600&display=swap" rel="stylesheet"/>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white:      #ffffff;
+      --off-white:  #f7f6f4;
+      --light-gray: #e8e6e1;
+      --mid-gray:   #9e9a93;
+      --dark-gray:  #4a4845;
+      --near-black: #1c1b19;
+      --accent:     #7a6e5f;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Work Sans', sans-serif;
+      background-color: var(--off-white);
+      color: var(--near-black);
+    }
+
+    /* ── NAV ── */
+    .store-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: var(--white);
+      border-bottom: 1px solid var(--light-gray);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 64px;
+    }
+    .store-nav .nav-links a {
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--dark-gray);
+      text-decoration: none;
+      margin-right: 1.8rem;
+      transition: color 0.2s;
+    }
+    .store-nav .nav-links a:hover { color: var(--near-black); }
+    .store-nav .brand {
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      color: var(--near-black);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .store-nav .brand svg { color: var(--near-black); }
+    .store-nav .nav-icons a {
+      color: var(--dark-gray);
+      text-decoration: none;
+      margin-left: 1.2rem;
+      transition: color 0.2s;
+    }
+    .store-nav .nav-icons a:hover { color: var(--near-black); }
+
+    /* ── LAYOUT ── */
+    .login-wrapper {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 64px;
+    }
+
+    /* Left — image panel */
+    .login-image {
+      position: relative;
+      overflow: hidden;
+      background: var(--light-gray);
+    }
+    .login-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      filter: brightness(0.92);
+    }
+    .login-image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(28,27,25,0.28) 0%, rgba(28,27,25,0.05) 100%);
+    }
+    .login-image-caption {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 2.5rem;
+      color: var(--white);
+    }
+    .login-image-caption p {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      font-weight: 300;
+      text-transform: uppercase;
+      opacity: 0.85;
+    }
+    .login-image-caption h2 {
+      font-size: 1.6rem;
+      font-weight: 200;
+      letter-spacing: 0.04em;
+      margin-top: 0.3rem;
+      line-height: 1.3;
+    }
+
+    /* Right — form panel */
+    .login-form-panel {
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 4rem;
+    }
+    .login-box {
+      width: 100%;
+      max-width: 380px;
+    }
+
+    .login-box .eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--mid-gray);
+      font-weight: 400;
+      margin-bottom: 0.6rem;
+    }
+    .login-box h1 {
+      font-size: 1.9rem;
+      font-weight: 200;
+      letter-spacing: 0.02em;
+      color: var(--near-black);
+      margin-bottom: 0.4rem;
+    }
+    .login-box .subtitle {
+      font-size: 0.82rem;
+      color: var(--mid-gray);
+      font-weight: 300;
+      margin-bottom: 2.4rem;
+    }
+
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: var(--light-gray);
+      margin-bottom: 2rem;
+    }
+
+    /* Form */
+    .form-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: var(--dark-gray);
+      margin-bottom: 0.4rem;
+    }
+    .form-control {
+      border: 1px solid var(--light-gray);
+      border-radius: 0;
+      background: var(--off-white);
+      color: var(--near-black);
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 300;
+      padding: 0.7rem 1rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .form-control:focus {
+      outline: none;
+      box-shadow: none;
+      border-color: var(--accent);
+      background: var(--white);
+    }
+    .form-control::placeholder { color: var(--mid-gray); }
+
+    .input-group-addon {
+      position: relative;
+    }
+    .toggle-pass {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--mid-gray);
+      padding: 0;
+      line-height: 1;
+    }
+    .toggle-pass:hover { color: var(--near-black); }
+
+    .forgot-link {
+      font-size: 0.75rem;
+      color: var(--mid-gray);
+      text-decoration: none;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+    .forgot-link:hover { color: var(--near-black); text-decoration: underline; }
+
+    /* Remember me */
+    .form-check-input {
+      border-radius: 0 !important;
+      border-color: var(--light-gray);
+      width: 14px; height: 14px;
+      cursor: pointer;
+    }
+    .form-check-input:checked {
+      background-color: var(--near-black);
+      border-color: var(--near-black);
+    }
+    .form-check-input:focus { box-shadow: none; }
+    .form-check-label {
+      font-size: 0.78rem;
+      color: var(--dark-gray);
+      font-weight: 300;
+      cursor: pointer;
+    }
+
+    /* Buttons */
+    .btn-nordic {
+      background: var(--near-black);
+      color: var(--white);
+      border: none;
+      border-radius: 0;
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.85rem 2rem;
+      width: 100%;
+      cursor: pointer;
+      transition: background 0.25s, letter-spacing 0.25s;
+    }
+    .btn-nordic:hover {
+      background: var(--accent);
+      letter-spacing: 0.18em;
+    }
+
+    .btn-nordic-outline {
+      background: transparent;
+      color: var(--near-black);
+      border: 1px solid var(--light-gray);
+      border-radius: 0;
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.75rem 2rem;
+      width: 100%;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      text-decoration: none;
+    }
+    .btn-nordic-outline:hover {
+      border-color: var(--near-black);
+      background: var(--off-white);
+      color: var(--near-black);
+    }
+
+    /* OR separator */
+    .or-sep {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      color: var(--mid-gray);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .or-sep::before, .or-sep::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--light-gray);
+    }
+
+    /* Register link */
+    .register-line {
+      font-size: 0.78rem;
+      color: var(--mid-gray);
+      font-weight: 300;
+      text-align: center;
+    }
+    .register-line a {
+      color: var(--near-black);
+      font-weight: 500;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+    }
+    .register-line a:hover { text-decoration: underline; }
+
+    /* Toast / alert */
+    .nordic-alert {
+      background: #fff0ee;
+      border-left: 3px solid #c0604a;
+      border-radius: 0;
+      font-size: 0.8rem;
+      color: #7a3b30;
+      padding: 0.65rem 0.9rem;
+      display: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .login-wrapper { grid-template-columns: 1fr; }
+      .login-image { display: none; }
+      .login-form-panel { padding: 2rem 1.5rem; min-height: calc(100vh - 64px); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="store-nav">
+    <div class="nav-links">
+      <a href="#">Shop</a>
+      <a href="#">About</a>
+    </div>
+    <a href="#" class="brand">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M5,22h14c1.103,0,2-0.897,2-2V9c0-0.553-0.447-1-1-1h-3V7c0-2.757-2.243-5-5-5S7,4.243,7,7v1H4C3.447,8,3,8.447,3,9v11C3,21.103,3.897,22,5,22z M9,7c0-1.654,1.346-3,3-3s3,1.346,3,3v1H9V7z M5,10h2v2h2v-2h6v2h2v-2h2l0.002,10H5V10z"/>
+      </svg>
+      NORDICS
+    </a>
+    <div class="nav-icons">
+      <a href="#">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M21,7H7.462L5.91,3.586C5.748,3.229,5.392,3,5,3H2v2h2.356L9.09,15.414C9.252,15.771,9.608,16,10,16h8c0.4,0,0.762-0.238,0.919-0.606l3-7c0.133-0.309,0.101-0.663-0.084-0.944C21.649,7.169,21.336,7,21,7z M17.341,14h-6.697L8.371,9h11.112L17.341,14z"/><circle cx="10.5" cy="18.5" r="1.5"/><circle cx="17.5" cy="18.5" r="1.5"/>
+        </svg>
+      </a>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="login-wrapper">
+
+    <!-- LEFT IMAGE -->
+    <div class="login-image">
+      <img
+        src="https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-1.2.1&auto=format&fit=crop&w=900&q=80"
+        alt="Fresh grocery"
+      />
+      <div class="login-image-overlay"></div>
+      <div class="login-image-caption">
+        <p>Fresh — Local — Nordic</p>
+        <h2>Good food,<br>simply made.</h2>
+      </div>
+    </div>
+
+    <!-- RIGHT FORM -->
+    <div class="login-form-panel">
+      <div class="login-box">
+
+        <p class="eyebrow">Welcome back</p>
+        <h1>Sign in</h1>
+        <p class="subtitle">Access your grocery account to continue.</p>
+
+        <div class="divider"></div>
+
+        <!-- Alert -->
+        <div class="nordic-alert mb-3" id="loginAlert">
+          Incorrect email or password. Please try again.
+        </div>
+
+        <form id="loginForm" novalidate>
+
+          <!-- Email -->
+          <div class="mb-3">
+            <label class="form-label" for="email">Email address</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              placeholder="you@example.com"
+              required
+            />
+          </div>
+
+          <!-- Password -->
+          <div class="mb-3">
+            <label class="form-label" for="password">Password</label>
+            <div class="input-group-addon">
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                placeholder="••••••••"
+                required
+                style="padding-right: 2.8rem;"
+              />
+              <button type="button" class="toggle-pass" onclick="togglePassword()" title="Show / hide password">
+                <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Remember / Forgot -->
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="rememberMe" />
+              <label class="form-check-label" for="rememberMe">Remember me</label>
+            </div>
+            <a href="#" class="forgot-link">Forgot password?</a>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="btn-nordic mb-3">Sign In</button>
+
+        </form>
+
+        <!-- OR -->
+        <div class="or-sep my-3">or</div>
+
+        <!-- Google -->
+        <a href="#" class="btn-nordic-outline mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+          </svg>
+          Continue with Google
+        </a>
+
+        <!-- Register -->
+        <p class="register-line">
+          New to Nordics? <a href="#">Create an account</a>
+        </p>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function togglePassword() {
+      const pw = document.getElementById('password');
+      const icon = document.getElementById('eyeIcon');
+      if (pw.type === 'password') {
+        pw.type = 'text';
+        icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+      } else {
+        pw.type = 'password';
+        icon.innerHTML = '<path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>';
+      }
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const alert = document.getElementById('loginAlert');
+
+      if (!email || !password) {
+        alert.style.display = 'block';
+        alert.textContent = 'Please fill in all fields.';
+        return;
+      }
+
+      // Simulate auth — replace with real logic
+      if (email === 'user@nordics.com' && password === 'password123') {
+        alert.style.display = 'none';
+        document.querySelector('.btn-nordic').textContent = 'Signing in…';
+        setTimeout(() => { window.location.href = '#'; }, 1000);
+      } else {
+        alert.style.display = 'block';
+        alert.textContent = 'Incorrect email or password. Please try again.';
+      }
+    });
+  </script>
+
+</body>
+</html>
